@@ -2,14 +2,14 @@ CC = gcc
 CFLAGS = -Wall -Os
 BUILDDIR = build
 TARGET = $(BUILDDIR)/calculator.exe
-SOURCES = $(wildcard *.c)
-OBJS = $(patsubst %.c, $(BUILDDIR)/%.o, $(wildcard *.c))
-HEADERS = $(wildcard *.h)
+SRC = src
+OBJS = $(addprefix $(BUILDDIR)/, $(notdir $(patsubst %.c, %.o, $(wildcard $(SRC)/*.c))))
+HEADERS = $(wildcard $(SRC)/*.h)
 
 $(TARGET):$(OBJS)
 	$(CC) $^ -o $(TARGET)
 
-$(BUILDDIR)/%.o: %.c $(HEADERS)
+$(BUILDDIR)/%.o: $(SRC)/%.c $(HEADERS)
 	gcc -c $< -o $@
 
 clean: 
